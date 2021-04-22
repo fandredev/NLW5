@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -10,6 +11,7 @@ import { EnvironmentButton } from "../components/EnvironmentButton";
 import { Header } from "../components/Header";
 import { Load as Loading } from "../components/Loading";
 import { PlantCardPrimary } from "../components/PlantCardPrimary";
+import { PlantProps } from "../libs/storage";
 import api from "../services/api";
 import colors from "../styles/colors";
 import fonts from "../styles/fonts";
@@ -17,19 +19,6 @@ import fonts from "../styles/fonts";
 interface EnvironmentProps {
   key: string;
   title: string;
-}
-
-interface PlantProps {
-  id: string | number;
-  name: string;
-  about: string;
-  water_tips: string;
-  photo: string;
-  environments: Array<string>;
-  frequency: {
-    times: string | number;
-    repeat_every: string;
-  };
 }
 
 export function PlantSelect(): JSX.Element {
@@ -40,7 +29,8 @@ export function PlantSelect(): JSX.Element {
   const [loading, setLoading] = useState<boolean>(true);
   const [page, setPage] = useState<number>(1);
   const [loadingMore, setLoadingMore] = useState<boolean>(false);
-  const [loadedAll, setLoadedAll] = useState<boolean>(false);
+
+  const navigation = useNavigation();
 
   function handleEnvironmentSelected(environment: string) {
     setEnvironmentSelected(environment);
@@ -60,6 +50,11 @@ export function PlantSelect(): JSX.Element {
     setPage((oldValue) => oldValue + 1);
     fetchPlants();
   }
+
+  function handlePlantSelect(plant: PlantProps) {
+    navigation.navigate("PlantSave", { plant });
+  }
+
   async function fetchPlants() {
     const { data } = await api.get(
       `plants?_sort=name&order=asc&_page=${page}&_limit=8`
@@ -108,6 +103,7 @@ export function PlantSelect(): JSX.Element {
       <View>
         <FlatList
           data={environments}
+          keyExtractor={(item) => String(item.key)}
           renderItem={({ item }) => (
             <EnvironmentButton
               title={item.title}
@@ -124,8 +120,13 @@ export function PlantSelect(): JSX.Element {
       <View style={styles.plants}>
         <FlatList
           data={filteredPlants}
+          keyExtractor={(item) => String(item.id)}
           renderItem={({ item }) => (
-            <PlantCardPrimary data={item} key={item.id} />
+            <PlantCardPrimary
+              data={item}
+              key={item.id}
+              onPress={() => handlePlantSelect(item)}
+            />
           )}
           showsVerticalScrollIndicator={false}
           numColumns={2}

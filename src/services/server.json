@@ -1,14 +1,14 @@
 {
   "plants_water_frequencies": [
-    {"key": "day", "title": "Todos os dias"},
-    {"key": "week", "title": "A cada semana"}
+    { "key": "day", "title": "Todos os dias" },
+    { "key": "week", "title": "A cada semana" }
   ],
 
   "plants_environments": [
-    {"key": "living_room", "title": "Sala"},
-    {"key": "bedroom", "title": "Quarto"},
-    {"key": "kitchen", "title": "Cozinha"},
-    {"key": "bathroom", "title": "Banheiro"}
+    { "key": "living_room", "title": "Sala" },
+    { "key": "bedroom", "title": "Quarto" },
+    { "key": "kitchen", "title": "Cozinha" },
+    { "key": "bathroom", "title": "Banheiro" }
   ],
 
   "plants": [
@@ -100,7 +100,7 @@
       "id": 8,
       "name": "Orquídea",
       "about": "Traz sensação de tranquilidade e paz ao ambiente. Requer pouca manutenção e ótima para quem tem pouco espaço.",
-      "water_tips": "Regue moderadamente. Reque 4 vezes na semana.",
+      "water_tips": "Regue moderadamente. Regue 4 vezes na semana.",
       "photo": "https://storage.googleapis.com/golden-wind/nextlevelweek/05-plantmanager/8.svg",
       "environments": ["bathroom"],
       "frequency": {
