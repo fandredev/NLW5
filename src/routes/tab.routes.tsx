@@ -1,6 +1,7 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
+import { Platform } from "react-native";
 import { MyPlants } from "../pages/MyPlants";
 import { PlantSelect } from "../pages/PlantSelect";
 import colors from "../styles/colors";
@@ -14,7 +15,10 @@ const AuthRoutes = () => {
         activeTintColor: colors.green,
         inactiveTintColor: colors.heading,
         labelPosition: "beside-icon",
-        style: { paddingVertical: 1, height: 65 },
+        style: {
+          paddingVertical: Platform.OS === "android" ? 0 : 20,
+          height: 65,
+        },
       }}
     >
       <AppTab.Screen

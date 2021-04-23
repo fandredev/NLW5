@@ -1,6 +1,8 @@
+import { Feather } from "@expo/vector-icons";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Animated, StyleSheet, Text, View } from "react-native";
 import { RectButton, RectButtonProps } from "react-native-gesture-handler";
+import Swipeable from "react-native-gesture-handler/Swipeable";
 import { SvgFromUri } from "react-native-svg";
 import colors from "../styles/colors";
 import fonts from "../styles/fonts";
@@ -9,24 +11,54 @@ interface PlantProps extends RectButtonProps {
   data: {
     name: string;
     photo: string;
-    hour?: string;
+    hour: string;
   };
+  handleRemove: () => void;
 }
 
-export function PlantCardSecondary({ data, ...rest }: PlantProps): JSX.Element {
+export function PlantCardSecondary({
+  data,
+  handleRemove,
+  ...rest
+}: PlantProps): JSX.Element {
   return (
-    <RectButton style={styles.container} {...rest}>
-      <SvgFromUri uri={data.photo} width={50} height={50} />
-      <Text style={styles.title}>{data.name}</Text>
-      <View style={styles.details}>
-        <Text style={styles.timeLabel}>Regar as </Text>
-        <Text style={styles.time}>{data.hour}</Text>
-      </View>
-    </RectButton>
+    <Swipeable
+      overshootRight={false}
+      renderRightActions={() => (
+        <Animated.View>
+          <View>
+            <RectButton style={styles.buttonRemove} onPress={handleRemove}>
+              <Feather name="trash" size={32} color={colors.white} />
+            </RectButton>
+          </View>
+        </Animated.View>
+      )}
+    >
+      <RectButton style={styles.container} {...rest}>
+        <SvgFromUri uri={data.photo} width={50} height={50} />
+        <Text style={styles.title}>{data.name}</Text>
+        <View style={styles.details}>
+          <Text style={styles.timeLabel}>Regar as </Text>
+          <Text style={styles.time}>{data.hour}</Text>
+        </View>
+      </RectButton>
+    </Swipeable>
   );
 }
 
 const styles = StyleSheet.create({
+  buttonRemove: {
+    width: 100,
+    height: 85,
+    backgroundColor: "red",
+    marginTop: 15,
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingLeft: 15,
+    right: 20,
+    position: "relative",
+  },
   container: {
     width: "100%",
     paddingHorizontal: 10,
